@@ -2,7 +2,7 @@ package newsapp.xtapp.com.staggeredpic.base;
 
 import android.support.annotation.NonNull;
 
-import newsapp.xtapp.com.staggeredpic.widgets.RxManager;
+import newsapp.xtapp.com.staggeredpic.config.RxManager;
 
 public abstract class BasePresenter<M,V> {
     public M mIModel;

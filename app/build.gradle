@@ -54,9 +54,12 @@ dependencies {
     implementation 'com.tencent.bugly:crashreport:2.6.6.1'
     implementation 'com.tencent.bugly:nativecrashreport:3.3.1'
     implementation files('libs/tbs_sdk_thirdapp_v3.6.0.1183_43604_sharewithdownload_withoutGame_obfs_20180211_105126.jar')
-    //RecyclerView
+    //BaseRecyclerViewAdapterHelper
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
     // fragmentation
     implementation 'me.yokeyword:fragmentation:1.1.6'
     implementation 'me.yokeyword:fragmentation-swipeback:1.1.6'
+
+    //Logger
+    implementation "com.orhanobut:logger:1.15"
 }

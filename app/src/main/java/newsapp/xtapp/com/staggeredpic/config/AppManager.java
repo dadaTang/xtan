@@ -1,4 +1,4 @@
-package newsapp.xtapp.com.staggeredpic.widgets;
+package newsapp.xtapp.com.staggeredpic.config;
 
 import android.app.Activity;
 import android.app.ActivityManager;

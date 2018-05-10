@@ -2,7 +2,7 @@ package newsapp.xtapp.com.staggeredpic.base;
 
 import android.support.annotation.NonNull;
 
-public interface BaseView {
+public interface IBaseView {
     /**
      * 初始化presenter
      * <p>

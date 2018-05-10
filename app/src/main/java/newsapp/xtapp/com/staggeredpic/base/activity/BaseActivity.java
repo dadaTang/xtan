@@ -1,4 +1,4 @@
-package newsapp.xtapp.com.staggeredpic.base;
+package newsapp.xtapp.com.staggeredpic.base.activity;
 
 
 import android.content.Context;
@@ -18,7 +18,7 @@ import newsapp.xtapp.com.staggeredpic.R;
 import newsapp.xtapp.com.staggeredpic.config.PICApplication;
 import newsapp.xtapp.com.staggeredpic.util.AppUtils;
 import newsapp.xtapp.com.staggeredpic.util.StatusBarUtils;
-import newsapp.xtapp.com.staggeredpic.widgets.AppManager;
+import newsapp.xtapp.com.staggeredpic.config.AppManager;
 import newsapp.xtapp.com.staggeredpic.widgets.WaitPorgressDialog;
 
 public abstract class BaseActivity extends SupportActivity {

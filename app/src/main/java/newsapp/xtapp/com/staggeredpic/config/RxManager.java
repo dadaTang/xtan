@@ -1,4 +1,4 @@
-package newsapp.xtapp.com.staggeredpic.widgets;
+package newsapp.xtapp.com.staggeredpic.config;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
