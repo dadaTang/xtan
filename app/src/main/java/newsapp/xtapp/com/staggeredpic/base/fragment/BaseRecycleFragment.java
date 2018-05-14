@@ -7,17 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import newsapp.xtapp.com.staggeredpic.R;
-import newsapp.xtapp.com.staggeredpic.base.BasePresenter;
+import newsapp.xtapp.com.staggeredpic.base.BasePresenter.BasePresenter;
 
 
 /**
- * Created by TLQ on 2017/10/17.
+ * Created by Horrarndoo on 2017/10/17.
  * <p>
  * 带RecycleView加载状态view的fragment，主要用于显示加载中、空界面、加载失败等状态界面显示
  */
 
 public abstract class BaseRecycleFragment<P extends BasePresenter> extends
-        BaseMVPCompatFragment<P> {
+        BaseMVPFragment<P> {
     /**
      * 网络异常View
      */

@@ -6,8 +6,10 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 
+import newsapp.xtapp.com.staggeredpic.util.AnimUtil;
+
 /**
- * Created by Horrarndoo on 2017/9/11.
+ * Created by TLQ on 2017/9/11.
  * <p>
  */
 

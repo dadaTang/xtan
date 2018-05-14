@@ -2,30 +2,47 @@ package newsapp.xtapp.com.staggeredpic.util;
 
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.Random;
+
+import newsapp.xtapp.com.staggeredpic.util.apputils.AppApplicationUtil;
 
 /**
- * Created by Horrarndoo on 2017/8/31.
+ * Created by TLQ on 2017/8/31.
  * <p>
  * 读取文件工具类
  */
 public class FileUtils {
     private static final String TAG = "FileUtils";
+
+
+    /**
+     * 获取文件名
+     */
+    public static String getFileName() {
+        Random random = new Random();
+        StringBuilder stringBuilder = new StringBuilder("Log_");
+        stringBuilder.append(Long.toString(System.currentTimeMillis() + random.nextInt(10000)).substring(4));
+        stringBuilder.append(".txt");
+        return stringBuilder.toString();
+    }
 
     /**
      * Convert byte[] to hex string.将byte转换成int，
@@ -126,8 +143,30 @@ public class FileUtils {
         }
         return dirPath;
     }
+
     /**
-     * 复制文件
+     * 获取文件大小
+     * */
+    public static long getFolderSize(File file) throws Exception {
+        long size = 0;
+        try {
+            File[] fileList = file.listFiles();
+            for (int i = 0; i < fileList.length; i++) {
+                // 如果下面还有文件
+                if (fileList[i].isDirectory()) {
+                    size = size + getFolderSize(fileList[i]);
+                } else {
+                    size = size + fileList[i].length();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return size;
+    }
+
+    /**
+     * 复制文件（字节流）
      */
     public static void copyFile(File sourcefile, File targetFile) {
         FileInputStream input = null;
@@ -167,104 +206,81 @@ public class FileUtils {
     }
 
     /**
-     * 保存图片到本机
-     *
-     * @param context            context
-     * @param fileName           文件名
-     * @param file               file
-     * @param saveResultCallback 保存结果callback
+     * 保存文件（字符流）
      */
-    public static void saveImage(final Context context, final String fileName, final File file,
-                                 final SaveResultCallback saveResultCallback) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                File appDir = new File(Environment.getExternalStorageDirectory(), "yizhi");
-                if (!appDir.exists()) {
-                    appDir.mkdir();
-                }
-                String saveFileName = "yizhi_pic";
-                if (fileName.contains(".png") || fileName.contains(".gif")) {
-                    String fileFormat = fileName.substring(fileName.lastIndexOf("."));
-                    saveFileName = MD5Utils.getMD5("yizhi_pic" + fileName) + fileFormat;
-                } else {
-                    saveFileName = MD5Utils.getMD5("yizhi_pic" + fileName) + ".png";
-                }
-                saveFileName = saveFileName.substring(20);//取前20位作为SaveName
-                File savefile = new File(appDir, saveFileName);
-                try {
-                    InputStream is = new FileInputStream(file);
-                    FileOutputStream fos = new FileOutputStream(savefile);
-                    byte[] buffer = new byte[1024 * 1024];//1M缓冲区
-                    int count = 0;
-                    while ((count = is.read(buffer)) > 0) {
-                        fos.write(buffer, 0, count);
-                    }
-                    fos.close();
-                    is.close();
-                    saveResultCallback.onSavedSuccess();
-                } catch (FileNotFoundException e) {
-                    saveResultCallback.onSavedFailed();
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    saveResultCallback.onSavedFailed();
-                    e.printStackTrace();
-                }
-                //保存图片后发送广播通知更新数据库
-                Uri uri = Uri.fromFile(savefile);
-                context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
-            }
-        }).start();
+    public static boolean saveFile(File dic, String fileName, String msg) {
+
+        File file = new File(dic, fileName);
+
+        try {
+            OutputStream outputStream = new FileOutputStream(file);
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "UTF-8");
+            outputStreamWriter.write(msg);
+            outputStreamWriter.flush();
+            outputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 
     /**
-     * 保存Bitmap到本机
+     * 得到手机的缓存目录
      *
-     * @param context            context
-     * @param fileName           bitmap文件名
-     * @param bmp                bitmap
-     * @param saveResultCallback 保存结果callback
+     * @param context
+     * @return
      */
-    public static void saveBitmap(final Context context, final String fileName, final Bitmap bmp,
-                                  final SaveResultCallback
-                                          saveResultCallback) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                File appDir = new File(Environment.getExternalStorageDirectory(), "yizhi");
-                if (!appDir.exists()) {
-                    appDir.mkdir();
-                }
-                //                SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-                // 设置以当前时间格式为图片名称
-                String saveFileName = MD5Utils.getMD5("yizhi_pic" + fileName) + ".png";
-                saveFileName = saveFileName.substring(20);//取前20位作为SaveName
-                File file = new File(appDir, saveFileName);
-                try {
-                    FileOutputStream fos = new FileOutputStream(file);
-                    bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
-                    fos.flush();
-                    fos.close();
-                    saveResultCallback.onSavedSuccess();
-                } catch (FileNotFoundException e) {
-                    saveResultCallback.onSavedFailed();
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    saveResultCallback.onSavedFailed();
-                    e.printStackTrace();
-                }
-                //保存图片后发送广播通知更新数据库
-                Uri uri = Uri.fromFile(file);
-                context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
+    public static File getCacheDir(Context context) {
+        Log.i("getCacheDir", "cache sdcard state: " + Environment.getExternalStorageState());
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            File cacheDir = context.getExternalCacheDir();
+            if (cacheDir != null && (cacheDir.exists() || cacheDir.mkdirs())) {
+                Log.i("getCacheDir", "cache dir: " + cacheDir.getAbsolutePath());
+                return cacheDir;
             }
-        }).start();
+        }
+
+        File cacheDir = context.getCacheDir();
+        Log.i("getCacheDir", "cache dir: " + cacheDir.getAbsolutePath());
+        return cacheDir;
     }
 
-    public interface SaveResultCallback {
-        void onSavedSuccess();
-
-        void onSavedFailed();
+    /**
+     * @return 创建缓存目录
+     */
+    public static File getcacheDirectory() {
+        File file = new File(AppApplicationUtil.getContext().getExternalCacheDir(), "RxCache");
+        if (!file.exists()) {
+            boolean b = file.mkdirs();
+            Log.e("file", "文件不存在  创建文件    " + b);
+        } else {
+            Log.e("file", "文件存在");
+        }
+        return file;
     }
+
+    /**
+     * 关闭IO
+     *
+     * @param closeable closeable
+     */
+    public static void closeIO(Closeable closeable) {
+        if (closeable == null) return;
+        try {
+            closeable.close();
+        } catch (IOException e) {
+            LogUtil.e("流异常");
+        }
+    }
+
 }
 
 

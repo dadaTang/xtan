@@ -2,6 +2,9 @@ package newsapp.xtapp.com.staggeredpic.base;
 
 import android.support.annotation.NonNull;
 
+import newsapp.xtapp.com.staggeredpic.base.BasePresenter.BasePresenter;
+
+
 public interface IBaseView {
     /**
      * 初始化presenter
@@ -12,12 +15,11 @@ public interface IBaseView {
     BasePresenter initPresenter();
 
     /**
-     * 显示toast消息
+     * 显示SnackBar消息
      *
      * @param msg 要显示的toast消息字符串
      */
     void showToast(String msg);
-
     /**
      * 显示等待dialog
      *
@@ -39,4 +41,6 @@ public interface IBaseView {
      * 回退
      */
     void back();
+
+
 }

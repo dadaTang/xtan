@@ -3,8 +3,10 @@ package newsapp.xtapp.com.staggeredpic.util;
 import android.content.Context;
 import android.widget.Toast;
 
+import newsapp.xtapp.com.staggeredpic.util.apputils.AppApplicationUtil;
+
 /**
- * Created by TLQ on 2017/4/5.
+ * Created by Horrarndoo on 2017/4/5.
  * <p>
  * toast工具类封装
  */
@@ -36,7 +38,7 @@ public class ToastUtils {
      * @param duration toast显示时间
      */
     public static void showToast(String text, int duration) {
-        showToast(AppUtils.getContext(), text, duration);
+        showToast(AppApplicationUtil.getContext(), text, duration);
     }
 
     /**
@@ -50,7 +52,7 @@ public class ToastUtils {
         /**
          * 保证运行在主线程
          */
-        AppUtils.runOnUIThread(new Runnable() {
+        AppApplicationUtil.runOnUIThread(new Runnable() {
             @Override
             public void run() {
                 if (mToast == null) {

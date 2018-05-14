@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">嗅探美图</string>
+    <string name="app_name">嗅探</string>
     <string name="dialog_positive">Confirm</string>
     <string name="dialog_negative">Cancel</string>
     <string name="loading">Loading……</string>
@@ -36,4 +36,82 @@
 
     <string name="empty_network_error">Network error, Click Retry</string>
     <string name="empty_no_data">There is no data, Click Retry</string>
+
+
+    <string name="permission_application">权限申请</string>
+    <string name="permission_application_content">在设置-应用-嗅探中开启权限，以正常使用嗅探</string>
+    <string name="yes">确定</string>
+    <string name="no">取消</string>
+    <string name="setting">设置</string>
+    <string name="app_exit">应用退出</string>
+    <!--update-->
+    <string name="app_exit_confirm">是否确认退出应用？</string>
+    <string name="app_update">发现新版本</string>
+    <string name="start_update">开始更新啦~</string>
+    <string name="update">下载</string>
+    <string name="update_msg">已经是最新版本~</string>
+
+    <string name="copy">复制链接</string>
+    <string name="copy_msg">已经复制链接地址到剪切板！</string>
+    <string name="browser">浏览器中打开</string>
+    <string name="no_network">当前网络不可用，请检查网络情况</string>
+    <string name="share">分享</string>
+    <string name="save">保存</string>
+    <string name="setwallpaper">设为壁纸</string>
+    <!--drawer-->
+    <string name="drawer_open">打开</string>
+    <string name="drawer_close">关闭</string>
+    <string name="about">关于</string>
+    <string name="one">每日一文</string>
+    <string name="wechat">微信优推</string>
+    <string name="gank">干货热门</string>
+    <string name="eyepetizer">开眼视频</string>
+    <string name="mylike">我的收藏</string>
+    <!--about-->
+    <string name="summary">概述</string>
+    <string name="thanks">感谢</string>
+    <string name="version">当前版本：</string>
+    <string name="github">项目主页</string>
+    <string name="advise">意见反馈</string>
+    <string name="collection">收藏</string>
+    <string name="check_update">检查更新</string>
+    <string name="share_app">应用分享</string>
+    <string name="about1">• RxJava - github.com/ReactiveX/RxJava</string>
+    <string name="about2">• Retrofit - github.com/square/retrofit</string>
+    <string name="about3">• Dagger2 - github.com/google/dagger</string>
+    <string name="about4">• Glide - github.com/bumptech/glide</string>
+    <string name="about5">• LeakCanary - github.com/square/leakcanary</string>
+    <string name="about6">• ButterKnife - github.com/JakeWharton/butterknife</string>
+    <string name="about7">• greenDAO - github.com/greenrobot/greenDAO</string>
+    <string name="about8">• 和风天气提供天气数据</string>
+    <string name="about9">• 高德定位提供定位服务</string>
+    <!--setting preferences-->
+    <string name="key_provincial_traffic_patterns">省流量模式</string>
+    <string name="key_night_mode">夜间模式</string>
+
+    <string name="key_clear_cache">清除缓存</string>
+    <string name="key_version">当前版本</string>
+    <string name="key_homepage">个人主页</string>
+
+
+    <!--flashActivity-->
+    <string name="skip">跳过</string>
+
+
+
+
+
+
+
+
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="zhihu_detail_title">Zhihu daily</string>
+    <string name="wangyi_detail_title">Top news</string>
+    <string name="weixin_detail_title">WeChat</string>
+
+    <string name="transition_movie_img">transition_movie_img</string>
+    <string name="transition_book_img">transition_book_img</string>
 </resources>

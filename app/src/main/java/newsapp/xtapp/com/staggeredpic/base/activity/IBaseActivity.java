@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import newsapp.xtapp.com.staggeredpic.base.IBaseView;
 
+
 /**
  * Created by TLQ on 2017/9/6.
  * <p>

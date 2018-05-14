@@ -4,11 +4,13 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityGroup;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
@@ -16,11 +18,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import newsapp.xtapp.com.staggeredpic.util.apputils.AppApplicationUtil;
+
 /**
  * Created by jameson on 12/19/15.
  */
 public class ScreenUtil {
-    private static int mStatusHeight = -1;
+
+
+    private ScreenUtil() {
+        /* cannot be instantiated */
+        throw new UnsupportedOperationException("cannot be instantiated");
+    }
+
     /**
      * 获取屏幕的宽度
      *
@@ -30,10 +40,11 @@ public class ScreenUtil {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     public static int getScreenWidth(Context context) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Point p = new Point();
-        wm.getDefaultDisplay().getSize(p);
-        return p.x;
+        Point point = new Point();
+        wm.getDefaultDisplay().getSize(point);
+        return point.x;
     }
+
     /**
      * 获取屏幕的高度
      *
@@ -43,24 +54,98 @@ public class ScreenUtil {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     public static int getScreenHeight(Context context) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Point p = new Point();
-        wm.getDefaultDisplay().getSize(p);
-        return p.y;
+        Point point = new Point();
+        wm.getDefaultDisplay().getSize(point);
+        return point.y;
     }
 
-    public static int dip2px(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
+    /**
+     * 获取屏幕宽度分辨率
+     */
+    public static int getScreenWidthPixels(Activity context) {
+        DisplayMetrics metric = new DisplayMetrics();
+        context.getWindowManager().getDefaultDisplay().getMetrics(metric);
+        return metric.widthPixels;
     }
 
-    public static int px2dip(Context context, float pxValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
+    /**
+     * 获取屏幕高度分辨率
+     */
+    public static int getScreenHeightPixels(Activity context) {
+        DisplayMetrics metric = new DisplayMetrics();
+        context.getWindowManager().getDefaultDisplay().getMetrics(metric);
+        return metric.heightPixels;
+    }
+
+    /**
+     * 获取状态栏高度
+     */
+    public static int getStatusBarHeight() {
+        Resources resources = AppApplicationUtil.getContext().getResources();
+        int resourcesId = resources.getIdentifier("status_bar_height", "dimen", "android");
+        int statusBarHeight = resources.getDimensionPixelSize(resourcesId);
+        return statusBarHeight;
+    }
+
+    /**
+     * 将px值转换为dp值
+     */
+    public static int px2dp(float pxValue) {
+        final float scale = AppApplicationUtil.getContext().getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
     }
 
-    private ScreenUtil() {
-        /* cannot be instantiated */
-        throw new UnsupportedOperationException("cannot be instantiated");
+    /**
+     * 将dp值转换为px值
+     */
+    public static int dp2px(float dpValue) {
+        final float scale = AppApplicationUtil.getContext().getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
+
+    /**
+     * 将px值转换为dip或dp值，保证尺寸大小不变
+     *
+     * @param pxValue
+     * @return
+     */
+    public static int px2dip(float pxValue) {
+        final float scale = AppApplicationUtil.getContext().getResources().getDisplayMetrics().density;
+        return (int) (pxValue / scale + 0.5f);
+    }
+
+    /**
+     * 将dip或dp值转换为px值，保证尺寸大小不变
+     *
+     * @param dipValue
+     * @return
+     */
+    public static int dip2px(float dipValue) {
+        final float scale = AppApplicationUtil.getContext().getResources().getDisplayMetrics().density;
+        return (int) (dipValue * scale + 0.5f);
+    }
+
+    /**
+     * 将px值转换为sp值，保证文字大小不变
+     *
+     * @param pxValue
+     * @return
+     */
+    public static int px2sp(float pxValue) {
+        final float fontScale = AppApplicationUtil.getContext().getResources().getDisplayMetrics().scaledDensity;
+        return (int) (pxValue / fontScale + 0.5f);
+    }
+
+    /**
+     * 将sp值转换为px值，保证文字大小不变
+     *
+     * @param spValue
+     * @return
+     */
+    public static int sp2px(float spValue) {
+        final float fontScale = AppApplicationUtil.getContext().getResources().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * fontScale + 0.5f);
     }
 
 
@@ -108,57 +193,24 @@ public class ScreenUtil {
         return bp;
     }
 
-    /**
-     * 获取actionbar的像素高度，默认使用android官方兼容包做actionbar兼容
-     *
-     * @return
-     */
-    public static int getActionBarHeight(Context context) {
-        int actionBarHeight = 0;
-        if (context instanceof AppCompatActivity && ((AppCompatActivity) context)
-                .getSupportActionBar() != null) {
-            Log.d("isAppCompatActivity", "==AppCompatActivity");
-            actionBarHeight = ((AppCompatActivity) context).getSupportActionBar().getHeight();
-        } else if (context instanceof Activity && ((Activity) context).getActionBar() != null) {
-            Log.d("isActivity", "==Activity");
-            actionBarHeight = ((Activity) context).getActionBar().getHeight();
-        } else if (context instanceof ActivityGroup) {
-            Log.d("ActivityGroup", "==ActivityGroup");
-            if (((ActivityGroup) context).getCurrentActivity() instanceof AppCompatActivity && (
-                    (AppCompatActivity) ((ActivityGroup) context).getCurrentActivity())
-                    .getSupportActionBar() != null) {
-                actionBarHeight = ((AppCompatActivity) ((ActivityGroup) context)
-                        .getCurrentActivity()).getSupportActionBar().getHeight();
-            } else if (((ActivityGroup) context).getCurrentActivity() instanceof Activity && (
-                    (Activity) ((ActivityGroup) context).getCurrentActivity()).getActionBar() !=
-                    null) {
-                actionBarHeight = ((Activity) ((ActivityGroup) context).getCurrentActivity())
-                        .getActionBar().getHeight();
-            }
-        }
-        if (actionBarHeight != 0)
-            return actionBarHeight;
-        final TypedValue tv = new TypedValue();
-        if (context.getTheme().resolveAttribute(android.support.v7.appcompat.R.attr
-                .actionBarSize, tv, true)) {
-            if (context.getTheme().resolveAttribute(android.support.v7.appcompat.R.attr
-                    .actionBarSize, tv, true))
-                actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, context
-                        .getResources().getDisplayMetrics());
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            if (context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
-                actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, context
-                        .getResources().getDisplayMetrics());
-        } else {
-            if (context.getTheme().resolveAttribute(android.support.v7.appcompat.R.attr
-                    .actionBarSize, tv, true))
-                actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, context
-                        .getResources().getDisplayMetrics());
-        }
-        Log.d("actionBarHeight", "====" + actionBarHeight);
-        return actionBarHeight;
-    }
 
+    /**
+     * 获取文本宽度
+     */
+    public static int getTextWidth(Context context) {
+        int screenHeight = context.getResources().getDisplayMetrics().heightPixels;
+
+        if (screenHeight <= 480) {
+
+            return (int) Math.ceil(50 * context.getResources().getDisplayMetrics().density);
+        } else if (screenHeight <= 1000) {
+
+            return (int) Math.ceil(50 * context.getResources().getDisplayMetrics().density);
+        } else {
+
+            return (int) Math.ceil(60 * context.getResources().getDisplayMetrics().density);
+        }
+    }
 
     /**
      * 设置view margin

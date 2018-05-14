@@ -16,9 +16,11 @@ import me.yokeyword.fragmentation.anim.DefaultVerticalAnimator;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
 import newsapp.xtapp.com.staggeredpic.R;
 import newsapp.xtapp.com.staggeredpic.config.PICApplication;
-import newsapp.xtapp.com.staggeredpic.util.AppUtils;
+import newsapp.xtapp.com.staggeredpic.util.SPUtil;
 import newsapp.xtapp.com.staggeredpic.util.StatusBarUtils;
 import newsapp.xtapp.com.staggeredpic.config.AppManager;
+import newsapp.xtapp.com.staggeredpic.util.ThemeUtils;
+import newsapp.xtapp.com.staggeredpic.util.apputils.AppApplicationUtil;
 import newsapp.xtapp.com.staggeredpic.widgets.WaitPorgressDialog;
 
 public abstract class BaseActivity extends SupportActivity {
@@ -52,9 +54,8 @@ public abstract class BaseActivity extends SupportActivity {
     }
 
     private void init(Bundle savedInstanceState) {
-        //主题初始化
-        /*setTheme(ThemeUtils.themeArr[SpUtils.getThemeIndex(this)][
-                SpUtils.getNightModel(this) ? 1 : 0]);*/
+        setTheme(ThemeUtils.themeArr[SPUtil.getThemeIndex(this)][
+                SPUtil.getNightModel(this) ? 1 : 0]);
         setContentView(getLayoutId());
         ButterKnife.bind(this);
         StatusBarUtils.setTransparent(this);
@@ -79,7 +80,7 @@ public abstract class BaseActivity extends SupportActivity {
      * 子类可以复写此方法初始化子类数据
      */
     protected void initData() {
-        mContext = AppUtils.getContext();
+        mContext = AppApplicationUtil.getContext();
         mApplication = (PICApplication) getApplication();
         mWaitPorgressDialog = new WaitPorgressDialog(this);
         isTransAnim = true;

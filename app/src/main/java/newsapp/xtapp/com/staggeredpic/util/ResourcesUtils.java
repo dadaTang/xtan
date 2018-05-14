@@ -4,6 +4,8 @@ import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
+import newsapp.xtapp.com.staggeredpic.util.apputils.AppApplicationUtil;
+
 /**
  * Created by TLQ on 2017/9/1.
  * <p>
@@ -18,7 +20,7 @@ public class ResourcesUtils {
      * @return 资源文件对应字符串
      */
     public static String getString(int id) {
-        return AppUtils.getContext().getResources().getString(id);
+        return AppApplicationUtil.getContext().getResources().getString(id);
     }
 
     /**
@@ -28,7 +30,7 @@ public class ResourcesUtils {
      * @return 资源文件对应字符串数组
      */
     public static String[] getStringArray(int id) {
-        return AppUtils.getContext().getResources().getStringArray(id);
+        return AppApplicationUtil.getContext().getResources().getStringArray(id);
     }
 
     /**
@@ -38,7 +40,7 @@ public class ResourcesUtils {
      * @return 资源文件对应图片
      */
     public static Drawable getDrawable(int id) {
-        return AppUtils.getContext().getResources().getDrawable(id);
+        return AppApplicationUtil.getContext().getResources().getDrawable(id);
     }
 
     /**
@@ -48,7 +50,7 @@ public class ResourcesUtils {
      * @return 资源文件对应颜色值
      */
     public static int getColor(int id) {
-        return AppUtils.getContext().getResources().getColor(id);
+        return AppApplicationUtil.getContext().getResources().getColor(id);
     }
 
     /**
@@ -58,7 +60,7 @@ public class ResourcesUtils {
      * @return 资源文件对应颜色状态
      */
     public static ColorStateList getColorStateList(int id) {
-        return AppUtils.getContext().getResources().getColorStateList(id);
+        return AppApplicationUtil.getContext().getResources().getColorStateList(id);
     }
 
     /**
@@ -68,7 +70,7 @@ public class ResourcesUtils {
      * @return 资源文件对应像素值
      */
     public static int getDimen(int id) {
-        return AppUtils.getContext().getResources().getDimensionPixelSize(id);// 返回具体像素值
+        return AppApplicationUtil.getContext().getResources().getDimensionPixelSize(id);// 返回具体像素值
     }
 
     /**
@@ -78,6 +80,6 @@ public class ResourcesUtils {
      * @return 布局view
      */
     public static View inflate(int id) {
-        return View.inflate(AppUtils.getContext(), id, null);
+        return View.inflate(AppApplicationUtil.getContext(), id, null);
     }
 }

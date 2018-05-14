@@ -6,6 +6,8 @@ import android.os.Environment;
 import java.io.File;
 import java.math.BigDecimal;
 
+import static newsapp.xtapp.com.staggeredpic.util.FileUtils.getFolderSize;
+
 /**
  */
 
@@ -55,24 +57,7 @@ public class SystemUtil {
         return dir.delete();
     }
 
-    // 获取文件大小
-    public static long getFolderSize(File file) throws Exception {
-        long size = 0;
-        try {
-            File[] fileList = file.listFiles();
-            for (int i = 0; i < fileList.length; i++) {
-                // 如果下面还有文件
-                if (fileList[i].isDirectory()) {
-                    size = size + getFolderSize(fileList[i]);
-                } else {
-                    size = size + fileList[i].length();
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return size;
-    }
+
 
     /**
      * 格式化单位
@@ -112,29 +97,5 @@ public class SystemUtil {
                 + "TB";
     }
 
-    /**
-     * 秒数转分钟
-     *
-     * @param seconds
-     * @return
-     */
-    public static String second2Minute(int seconds) {
-        int minutes = seconds / 60;
-        String stringLast;
-        if (minutes <= 9) {
-            stringLast = "0" + minutes;
-        } else {
-            stringLast = "" + minutes;
-        }
-        int remainingSeconds = seconds % 60;
-        String durationString;
-        if (remainingSeconds < 10) {
-            durationString = "0" + remainingSeconds;
 
-        } else {
-            durationString = "" + remainingSeconds;
-
-        }
-        return stringLast + "′ " + durationString + "″";
-    }
 }
