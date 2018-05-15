@@ -41,17 +41,6 @@ public class RxBus {
         this.bus = PublishSubject.create().toSerialized();
     }
 
-
-    private static class Holder {
-        private static RxBus instance = new RxBus();
-    }
-
-    public static RxBus getInstance() {
-        return Holder.instance;
-    }
-
-
-
     public static RxBus get() {
         RxBus rxBus = defaultInstance;
         if (defaultInstance == null) {

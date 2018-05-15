@@ -24,7 +24,6 @@ import newsapp.xtapp.com.staggeredpic.widgets.WaitPorgressDialog;
  */
 
 public abstract class BaseFragment extends SupportFragment {
-
     protected String TAG;
     protected Context mContext;
     protected Activity mActivity;

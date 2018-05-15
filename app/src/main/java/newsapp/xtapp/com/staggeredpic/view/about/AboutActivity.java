@@ -32,7 +32,7 @@ public class AboutActivity extends BaseActivity {
         initTitleBar(toolbar, "关于");
         toolbar.setTitleTextColor(ResourcesUtils.getColor(R.color.md_white));
         Logger.e("tvVersionCode = " + tvVersionCode);
-        tvVersionCode.setText(AppApplicationUtil.getVersionName(this));
+        tvVersionCode.setText(AppApplicationUtil.getAppVersionName(this));
     }
 
     @OnClick(R.id.cv_author)

@@ -13,8 +13,9 @@ import okhttp3.Response;
 
 import static newsapp.xtapp.com.staggeredpic.util.HttpUtils.getUserAgent;
 
+
 /**
- * Created by TLQ on 2017/9/12.
+ * Created by Horrarndoo on 2017/9/12.
  * <p>
  * CacheInterceptor
  */

@@ -37,15 +37,16 @@
     <application
         android:name=".config.PICApplication"
 
-        tools:replace="android:name"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:name">
 
-        <activity android:name=".view.splash.SplashActivity"
+        <activity
+            android:name=".view.splash.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -54,73 +55,69 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".view.main.MainActivity"/>
+        <activity android:name=".view.main.MainActivity" />
 
 
-        <activity android:name=".view.detail.ZhihuDailyDetailActivity"/>
+        <activity android:name=".view.detail.ZhihuDailyDetailActivity" />
 
-        <activity android:name=".view.detail.WangyiDailyDetailActivity"/>
+        <activity android:name=".view.detail.WangyiDailyDetailActivity" />
 
-        <activity android:name=".view.detail.WeixinChoiceDetailActivity"/>
+        <activity android:name=".view.detail.WeixinChoiceDetailActivity" />
 
-        <activity android:name=".view.detail.GankIoDetailActivity"/>
+        <activity android:name=".view.detail.GankIoDetailActivity" />
 
-        <activity android:name=".view.detail.MovieDetailActivity"/>
+        <activity android:name=".view.detail.MovieDetailActivity" />
 
-        <activity android:name=".view.detail.BookDetailActivity"/>
+        <activity android:name=".view.detail.BookDetailActivity" />
 
-        <activity android:name=".view.detail.WebViewLoadActivity"/>
+        <activity android:name=".view.detail.WebViewLoadActivity" />
 
 
-        <activity android:name=".view.about.AboutActivity"/>
+        <activity android:name=".view.about.AboutActivity" />
 
-        <activity android:name=".view.personal.HeadSettingActivity"/>
+        <activity android:name=".view.personal.HeadSettingActivity" />
 
-        <activity android:name=".view.image.ImageBrowseActivity"/>
+        <activity android:name=".view.image.ImageBrowseActivity" />
+
+        <activity android:name=".view.QRCodeActivity" />
+
+
+
 
         <activity
             android:name="com.mob.tools.MobUIShell"
-            android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="stateHidden|adjustResize">
-
-            <!-- 调用新浪原生SDK，需要注册的回调activity -->
             <intent-filter>
-                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="tencent100371282" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
-            <!--集成line客户端登录授权，需要添如下格式的过滤器-->
+            <!--
+        调用新浪原生SDK，需要注册的回调activity -->
             <intent-filter>
-                <data android:scheme="line.1477692153"/>
-                <action android:name="android.intent.action.VIEW"/>
-
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
         </activity>
-
+        <!--微信分享回调 -->
         <activity
-            android:name="cn.sharesdk.tencent.qq.ReceiveActivity"
-            android:launchMode="singleTask"
-            android:noHistory="true">
-            <intent-filter><action android:name="android.intent.action.VIEW"/>
+            android:name="cn.sharesdk.demo.wxapi.WXEntryActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-
-                <data android:scheme="tencent100371282"/>
-            </intent-filter>
-        </activity>
 
         <!-- 填写您从Mob开发者后台中得到的Appkey和AppSecret -->
         <meta-data
             android:name="Mob-AppKey"
-            android:value="25c99f3ecc660"/>
+            android:value="25c99f3ecc660" />
         <meta-data
             android:name="Mob-AppSecret"
-            android:value="325041f07583f9890964a785bb9734ba"/>
+            android:value="325041f07583f9890964a785bb9734ba" />
     </application>
 
 </manifest>

@@ -5,20 +5,28 @@ import android.content.Context;
 import android.os.Environment;
 import android.os.Handler;
 
+import com.mob.MobApplication;
 import com.mob.MobSDK;
+import com.orhanobut.logger.LogLevel;
+import com.orhanobut.logger.Logger;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import java.io.File;
+
+import newsapp.xtapp.com.staggeredpic.BuildConfig;
 
 /**
  * 全集自定义Application
  * 初始化数据
  */
-public class PICApplication extends Application {
+public class PICApplication extends MobApplication {
+    private static final String LOG_TAG = "YZ_LOGGER";
+
     //这个key是自己在聚合数据申请的key，需要自己去聚合数据申请
     public static final String JU_HE_APP_KEY = "799b785ba7b97223be80534651dd0d63";
 
     private static PICApplication instance;
+
     protected static Context context;
     protected static Handler handler;
     protected static int mainThreadId;
@@ -27,11 +35,19 @@ public class PICApplication extends Application {
 
     @Override
     public void onCreate() {
+        //shareSDK初始化
         MobSDK.init(this);
+
         super.onCreate();
+
+        context = getApplicationContext();
+        handler = new Handler();
+        mainThreadId = android.os.Process.myTid();
+        Logger.init(LOG_TAG).logLevel(BuildConfig.IS_SHOW_LOG ? LogLevel.FULL : LogLevel.NONE);
         app = this;
         //初始化屏幕宽高
 
+        //bugly初始化
         CrashReport.initCrashReport(getApplicationContext(), "c73ecc54da", false);
     }
 

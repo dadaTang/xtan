@@ -24,7 +24,6 @@ import newsapp.xtapp.com.staggeredpic.util.apputils.AppApplicationUtil;
 import newsapp.xtapp.com.staggeredpic.widgets.WaitPorgressDialog;
 
 public abstract class BaseActivity extends SupportActivity {
-
     protected PICApplication mApplication;
     protected WaitPorgressDialog mWaitPorgressDialog;
     protected Context mContext;//全局上下文对象

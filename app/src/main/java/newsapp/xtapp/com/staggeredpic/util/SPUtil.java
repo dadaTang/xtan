@@ -9,13 +9,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import newsapp.xtapp.com.staggeredpic.util.apputils.AppApplicationUtil;
+
 
 /**
  * SharedPreferences封装方法
@@ -213,6 +211,4 @@ public class SPUtil {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         prefs.edit().putBoolean("pNightMode", nightModel).apply();
     }
-
-
 }

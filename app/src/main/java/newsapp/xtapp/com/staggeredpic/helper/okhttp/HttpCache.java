@@ -7,7 +7,7 @@ import newsapp.xtapp.com.staggeredpic.util.apputils.AppApplicationUtil;
 import okhttp3.Cache;
 
 /**
- * Created by TLQ on 2017/9/12.
+ * Created by Horrarndoo on 2017/9/12.
  * <p>
  */
 public class HttpCache {

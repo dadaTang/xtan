@@ -10,6 +10,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.orhanobut.logger.Logger;
@@ -21,12 +22,15 @@ import java.util.List;
 import butterknife.BindView;
 import newsapp.xtapp.com.staggeredpic.R;
 import newsapp.xtapp.com.staggeredpic.adapter.FragmentAdapter;
+import newsapp.xtapp.com.staggeredpic.anim.ToolbarAnimManager;
 import newsapp.xtapp.com.staggeredpic.base.BasePresenter.BasePresenter;
+import newsapp.xtapp.com.staggeredpic.base.activity.BaseActivity;
 import newsapp.xtapp.com.staggeredpic.base.fragment.BaseMVPFragment;
 import newsapp.xtapp.com.staggeredpic.constant.BundleKeyConstant;
 import newsapp.xtapp.com.staggeredpic.constant.TabFragmentIndex;
 import newsapp.xtapp.com.staggeredpic.contract.main.MainContract;
 import newsapp.xtapp.com.staggeredpic.presenter.main.MainPresenter;
+import newsapp.xtapp.com.staggeredpic.util.SPUtil;
 import newsapp.xtapp.com.staggeredpic.view.detail.WebViewLoadActivity;
 import newsapp.xtapp.com.staggeredpic.view.main.tabs.WangyiFragment;
 import newsapp.xtapp.com.staggeredpic.view.main.tabs.WeixinFragment;
@@ -119,8 +123,7 @@ public class HomeFragment extends BaseMVPFragment<MainContract.MainPresenter>
                 startNewActivity(WebViewLoadActivity.class, bundle);
             }
         });
-
-      /*  toolbar.inflateMenu(R.menu.toolbar_menu);
+        toolbar.inflateMenu(R.menu.toolbar_menu);
         toolbar.getMenu().findItem(R.id.night).setChecked(SPUtil.getNightModel(mContext));
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -129,14 +132,14 @@ public class HomeFragment extends BaseMVPFragment<MainContract.MainPresenter>
                     case R.id.night:
                         item.setChecked(!item.isChecked());
                         SPUtil.setNightModel(mContext, item.isChecked());
-                        ((BaseCompatActivity) mActivity).reload();
+                        ((BaseActivity) mActivity).reload();
                         break;
                 }
                 return false;
             }
         });
 
-        ToolbarAnimManager.animIn(mContext, toolbar);*/
+        ToolbarAnimManager.animIn(mContext, toolbar);
     }
 
     @NonNull
@@ -144,10 +147,6 @@ public class HomeFragment extends BaseMVPFragment<MainContract.MainPresenter>
     public BasePresenter initPresenter() {
         return MainPresenter.newInstance();
     }
-
-
-
-
 
     @Override
     public void showTabList(String[] tabs) {

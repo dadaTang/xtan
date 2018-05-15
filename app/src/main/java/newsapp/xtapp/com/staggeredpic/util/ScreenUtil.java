@@ -18,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import java.lang.reflect.Field;
+
 import newsapp.xtapp.com.staggeredpic.util.apputils.AppApplicationUtil;
 
 /**
@@ -84,6 +86,29 @@ public class ScreenUtil {
         Resources resources = AppApplicationUtil.getContext().getResources();
         int resourcesId = resources.getIdentifier("status_bar_height", "dimen", "android");
         int statusBarHeight = resources.getDimensionPixelSize(resourcesId);
+        return statusBarHeight;
+    }
+
+    /**
+     * 获取系统状态栏高度
+     *
+     * @param context
+     * @return
+     */
+    public static int getStatusBarHeight(Context context) {
+        Class<?> c = null;
+        Object obj = null;
+        Field field = null;
+        int x = 0, statusBarHeight = 0;
+        try {
+            c = Class.forName("com.android.internal.R$dimen");
+            obj = c.newInstance();
+            field = c.getField("status_bar_height");
+            x = Integer.parseInt(field.get(obj).toString());
+            statusBarHeight = context.getResources().getDimensionPixelSize(x);
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
         return statusBarHeight;
     }
 

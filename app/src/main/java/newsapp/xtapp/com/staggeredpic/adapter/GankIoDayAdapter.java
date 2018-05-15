@@ -4,7 +4,6 @@ import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -12,6 +11,8 @@ import java.util.List;
 
 import newsapp.xtapp.com.staggeredpic.R;
 import newsapp.xtapp.com.staggeredpic.model.bean.gankio.GankIoDayItemBean;
+
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 /**
  * Created by Horrarndoo on 2017/10/11.
@@ -88,7 +89,7 @@ public class GankIoDayAdapter extends BaseMultiItemQuickAdapter<GankIoDayItemBea
                 helper.setImageResource(R.id.iv_type_item_title, R.drawable
                         .ic_vector_title_welfare);
                 Glide.with(mContext).load(item.getUrl())
-                        .transition(new DrawableTransitionOptions().crossFade())
+                        .transition(withCrossFade())
                         .into((ImageView) helper
                         .getView(R.id.iv_item_title));
                 break;

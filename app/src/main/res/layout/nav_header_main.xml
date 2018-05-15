@@ -7,7 +7,7 @@
              android:gravity="bottom"
              android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <newsapp.xtapp.com.staggeredpic.view.widgets.MovingImageView
+    <newsapp.xtapp.com.staggeredpic.widgets.MovingImageView
         android:id="@+id/miv_menu"
         android:layout_width="match_parent"
         android:layout_height="250dp"

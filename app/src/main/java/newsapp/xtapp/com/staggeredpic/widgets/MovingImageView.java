@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package newsapp.xtapp.com.staggeredpic.view.widgets;
+package newsapp.xtapp.com.staggeredpic.widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;

@@ -1,15 +1,14 @@
 package newsapp.xtapp.com.staggeredpic.util.apputils;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
-import android.os.Build;
+import android.os.Environment;
 import android.os.Handler;
-import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -33,34 +32,28 @@ public class AppApplicationUtil {
         return PICApplication.getContext();
     }
 
-
     /**
-     * 获取APP名称
+     * 获取全局handler
      *
-     * @param context
-     * @return
+     * @return 全局handler
      */
-    public static String getAppName(Context context) {
-        String appName;
-        try {
-            PackageManager p = context.getPackageManager();
-            PackageInfo info = p.getPackageInfo(context.getPackageName(), 0);
-            int labelRes = info.applicationInfo.labelRes;
-            appName = context.getResources().getString(labelRes);
-        } catch (NameNotFoundException e) {
-            e.printStackTrace();
-            appName = "unKnown";
-        }
-        return appName;
+    public static Handler getHandler() {
+        return PICApplication.getHandler();
     }
 
     /**
-     * 获取APP版本名称
+     * 获取主线程id
      *
-     * @param context
-     * @return
+     * @return 主线程id
      */
-    public static String getVersionName(Context context) {
+    public static int getMainThreadId() {
+        return PICApplication.getMainThreadId();
+    }
+
+    /**
+     * 获取版本名称
+     */
+    public static String getAppVersionName(Context context) {
         String versionName = "";
         try {
             // ---get the package info---
@@ -76,93 +69,75 @@ public class AppApplicationUtil {
         return versionName;
     }
 
-
     /**
-     * 获取APP版本号
-     *
-     * @param context
-     * @return
+     * 获取版本号
      */
-    public static int getVersionCode(Context context) {
-        int verCode = -1;
+    public static int getAppVersionCode(Context context) {
+        int versioncode = -1;
         try {
-            verCode = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
-        } catch (NameNotFoundException e) {
+            // ---get the package info---
+            PackageManager pm = context.getPackageManager();
+            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
+            versioncode = pi.versionCode;
+        } catch (Exception e) {
             Log.e("VersionInfo", "Exception", e);
         }
-        return verCode;
+        return versioncode;
+    }
+
+
+    /**
+     * 显示软键盘
+     */
+    public static void openSoftInput(EditText et) {
+        InputMethodManager inputMethodManager = (InputMethodManager) et.getContext()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.showSoftInput(et, InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     /**
-     * 获取本地应用大小
-     *
-     * @param context
-     * @return 大小(字节单位) 1MB = 1024KB  1KB = 1024Byte
+     * 隐藏软键盘
      */
-    public static long getAppSize(Context context) {
-        long appSize = 0;
-        try {
-            ApplicationInfo applicationInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(), 0);
-            appSize = new File(applicationInfo.sourceDir).length();
-        } catch (NameNotFoundException e) {
-            e.printStackTrace();
+    public static void hideSoftInput(EditText et) {
+        InputMethodManager inputMethodManager = (InputMethodManager) et.getContext()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(et.getWindowToken(), InputMethodManager
+                .HIDE_NOT_ALWAYS);
+    }
+
+    /**
+     * 获取SD卡路径
+     *
+     * @return 如果sd卡不存在则返回null
+     */
+    public static File getSDPath() {
+        File sdDir = null;
+        boolean sdCardExist = Environment.getExternalStorageState().equals(Environment
+                .MEDIA_MOUNTED);   //判断sd卡是否存在
+        if (sdCardExist) {
+            sdDir = Environment.getExternalStorageDirectory();//获取跟目录
         }
-        return appSize;
+        return sdDir;
     }
 
     /**
-     * 安装应用(兼容Android 7.0及以上)
-     * <p>
-     * Android N步骤：
-     * 1、在res文件夹下面创建xml文件夹，在xml文件夹中创建file_paths.xml文件
-     * <paths>
-     * <external-path
-     * name="XXX名字"
-     * path="XXX路径" />
-     * </paths>
-     * 2、在Manifest中添加
-     * <provider
-     * android:name="android.support.v4.content.FileProvider"
-     * android:authorities="包名.fileProvider"
-     * android:exported="false"
-     * android:grantUriPermissions="true">
-     * <meta-data
-     * android:name="android.support.FILE_PROVIDER_PATHS"
-     * android:resource="@xml/file_paths" />
-     * </provider>
+     * 安装文件
      *
-     * @param context
-     * @param apkFile
+     * @param data
      */
-    public static void installApk(Context context, File apkFile) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Uri uri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileProvider", apkFile);
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            intent.setDataAndType(uri, "application/vnd.android.package-archive");
-        } else {
-            intent.setDataAndType(Uri.fromFile(apkFile), "application/vnd.android.package-archive");
-        }
-        context.startActivity(intent);
+    public static void promptInstall(Context context, Uri data) {
+        Intent promptInstall = new Intent(Intent.ACTION_VIEW)
+                .setDataAndType(data, "application/vnd.android.package-archive");
+        // FLAG_ACTIVITY_NEW_TASK 可以保证安装成功时可以正常打开 app
+        promptInstall.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(promptInstall);
     }
 
-    /**
-     * 获取主线程id
-     *
-     * @return 主线程id
-     */
-    public static int getMainThreadId() {
-        return PICApplication.getMainThreadId();
-    }
-
-    /**
-     * 获取全局handler
-     *
-     * @return 全局handler
-     */
-    public static Handler getHandler() {
-        return PICApplication.getHandler();
+    public static void copy2clipboard(Context context, String text) {
+        ClipboardManager cm = (ClipboardManager) context.getSystemService(Context
+                .CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("clip", text);
+        cm.setPrimaryClip(clip);
     }
 
     /**
@@ -193,24 +168,5 @@ public class AppApplicationUtil {
             // 如果是子线程, 借助handler让其运行在主线程
             getHandler().post(r);
         }
-    }
-
-    /**
-     * 显示软键盘
-     */
-    public static void openSoftInput(EditText et) {
-        InputMethodManager inputMethodManager = (InputMethodManager) et.getContext()
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.showSoftInput(et, InputMethodManager.HIDE_NOT_ALWAYS);
-    }
-
-    /**
-     * 隐藏软键盘
-     */
-    public static void hideSoftInput(EditText et) {
-        InputMethodManager inputMethodManager = (InputMethodManager) et.getContext()
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(et.getWindowToken(), InputMethodManager
-                .HIDE_NOT_ALWAYS);
     }
 }

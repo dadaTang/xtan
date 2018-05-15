@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 
 import newsapp.xtapp.com.staggeredpic.util.ScreenUtil;
+import newsapp.xtapp.com.staggeredpic.util.apputils.AppApplicationUtil;
 
 /**
  * Created by Horrarndoo on 2017/10/19.
@@ -57,7 +58,7 @@ public class CompatNestedScrollView extends NestedScrollView {
             //如果上滑超过toolbar高度，开启伴随动画
             //Logger.e("t = " + t);
             //Logger.e("headView.getHeight = " + headView.getHeight());
-            float slideValue = t - (ScreenUtil.dp2px(56) + ScreenUtil.getStatusBarHeight());
+            float slideValue = t - (ScreenUtil.dp2px(56) + ScreenUtil.getStatusBarHeight(AppApplicationUtil.getContext()));
 
             if (slideValue < 0)
                 slideValue = 0;

@@ -1,5 +1,6 @@
 package newsapp.xtapp.com.staggeredpic.adapter;
 
+
 import android.graphics.Color;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -50,9 +51,8 @@ public class ZhihuAdapter extends BaseCompatAdapter<ZhihuDailyItemBean, BaseView
             }
         }
         helper.setText(R.id.tv_item_title, item.getTitle());
-        Glide.with(mContext).load(item.getImages()[0])
-                .transition(new DrawableTransitionOptions().crossFade())
+        Glide.with(mContext).load(item.getImages()[0]).transition(new DrawableTransitionOptions().crossFade())
                 .into((ImageView) helper.getView(R
-                .id.iv_item_image));
+                        .id.iv_item_image));
     }
 }
